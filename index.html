@@ -104,8 +104,8 @@ label.b{background:var(--card);color:var(--ink);border:1px solid var(--line)}
 // ===== EDIT THESE FOR THE CLIENT =====
 var CONFIG = {
   from: "SHRIVASTAV",   // the boy (your client)
-  to: "Priyadarshini",    // the birthday girl
-  // Keep slideshow images beside this file.
+  to: "Hema Priyadharshini",    // the birthday girl
+  // Keep both photo sets beside this file.
   items: [
     {src:"aa.jpg",cap:"An online hello"},
     {src:"bb.jpg",cap:"A happy moment"},
@@ -115,6 +115,16 @@ var CONFIG = {
     {src:"ff.jpg",cap:"A fun snapshot"},
     {src:"gg.jpg",cap:"More good times"},
     {src:"hh.jpg",cap:"Happy birthday!"}
+  ],
+  slides: [
+    {src:"ii.jpg",cap:"Joyful moments, having fun together"},
+    {src:"jj.jpg",cap:"A peaceful stroll by the water"},
+    {src:"kk.jpg",cap:"Fun selfies and happy smiles"},
+    {src:"ll.jpg",cap:"He can't help admiring her cute smile"},
+    {src:"mm.jpg",cap:"Together like buddies, looking cool"},
+    {src:"nn.jpg",cap:"Looking at each other and smiling"},
+    {src:"oo.jpg",cap:"Laughing together, lost in the moment"},
+    {src:"pp.jpg",cap:"Sigma energy, no worries—just enjoying together"}
   ]
 };
 // =====================================
@@ -142,7 +152,7 @@ var room=new THREE.Mesh(new THREE.BoxGeometry(W*2,H,W*2),roomMaterials);room.pos
 var floorMat=LM(0xb9b2a3),floor=new THREE.Mesh(new THREE.PlaneGeometry(W*2,W*2),floorMat);floor.rotation.x=-PI/2;S.add(floor);
 var roomLights=[];
 [[-5,0],[5,0],[0,-5],[0,5]].forEach(function(p){var l=new THREE.PointLight(0xfff1d6,.5,12);l.position.set(p[0],3.6,p[1]);S.add(l);roomLights.push(l)});
-var tvGlow=new THREE.PointLight(0xffc7a0,0,13);tvGlow.position.set(0,2.7,-6.8);S.add(tvGlow);
+var tvGlow=new THREE.PointLight(0xffc7a0,0,13);tvGlow.position.set(0,2.55,-6.8);S.add(tvGlow);
 var loungeGlow=new THREE.PointLight(0xffb875,0,9);loungeGlow.position.set(0,2.1,-2.8);S.add(loungeGlow);
 var danceLights=[];
 [[0xff4fc8,-2.5,2],[0x50cfff,2.5,2],[0xffd45c,0,.2]].forEach(function(color){
@@ -177,7 +187,7 @@ var cakeBand=new THREE.Mesh(new THREE.TorusGeometry(.59,.045,10,40),LM(0xffd76d)
 var cakeTextCanvas=document.createElement('canvas');cakeTextCanvas.width=512;cakeTextCanvas.height=128;
 var cakeTextCtx=cakeTextCanvas.getContext('2d');cakeTextCtx.fillStyle='#fff4e8';cakeTextCtx.fillRect(0,0,512,128);
 cakeTextCtx.fillStyle='#a52d55';cakeTextCtx.textAlign='center';cakeTextCtx.font='bold 34px Georgia';cakeTextCtx.fillText('Happy Birthday',256,52);
-cakeTextCtx.font='bold 40px Georgia';cakeTextCtx.fillText('Priyadarshini!',256,101);
+cakeTextCtx.font='bold 40px Georgia';cakeTextCtx.fillText('Hema Priyadharshini!',256,101);
 var cakePlaque=new THREE.Mesh(new THREE.PlaneGeometry(.92,.24),new THREE.MeshBasicMaterial({map:new THREE.CanvasTexture(cakeTextCanvas)}));
 cakePlaque.position.set(0,.37,.605);cakeGroup.add(cakePlaque);
 [-.28,-.09,.1,.29].forEach(function(x,i){
@@ -285,13 +295,12 @@ function setOutsideScene(active){
   danceLights.forEach(function(light){if(active)light.intensity=0});
   if(active)S.background.setHex(0x10192a);
 }
-// TV
+// TV (fixed: 16:9, sits fully inside the room height of 4.5)
 var tv=new THREE.Group();tv.position.set(0,0,-8.2);
-var tvf=new THREE.Mesh(new THREE.BoxGeometry(8.3,4.8,.15),LM(0x111111));tvf.position.y=2.35;tv.add(tvf);
-var tvs=new THREE.Mesh(new THREE.BoxGeometry(.35,.65,.35),LM(0x111111));tvs.position.set(0,-.37,-.12);tv.add(tvs);
+var tvf=new THREE.Mesh(new THREE.BoxGeometry(6.2,3.58,.15),LM(0x111111));tvf.position.y=2.55;tv.add(tvf);
 var TV_RENDER_SCALE=Math.min(4,Math.floor(R.capabilities.maxTextureSize/1024));
 var tvc=document.createElement('canvas');tvc.width=1024*TV_RENDER_SCALE;tvc.height=576*TV_RENDER_SCALE;var tvt=new THREE.CanvasTexture(tvc);
-var scr=new THREE.Mesh(new THREE.PlaneGeometry(8.1,4.56),new THREE.MeshBasicMaterial({map:tvt}));scr.position.set(0,2.35,.08);tv.add(scr);S.add(tv);tv.visible=false;
+var scr=new THREE.Mesh(new THREE.PlaneGeometry(6,3.375),new THREE.MeshBasicMaterial({map:tvt}));scr.position.set(0,2.55,.08);tv.add(scr);S.add(tv);tv.visible=false;
 
 function drawTex(c,it,w,h){
   var g=c.getContext('2d');
@@ -340,20 +349,16 @@ function drawTV(i){
     var bg=g.createLinearGradient(0,0,1024,576);bg.addColorStop(0,'#f3c9d4');bg.addColorStop(1,'#e7d6ac');g.fillStyle=bg;g.fillRect(0,0,1024,576);
     g.fillStyle='rgba(255,255,255,.88)';g.fillRect(38,34,948,508);g.strokeStyle='#8c5a58';g.lineWidth=5;g.strokeRect(38,34,948,508);
     g.fillStyle='#593942';g.textAlign='center';g.font='italic 50px Georgia';g.fillText('A little birthday slideshow',512,185);
-    g.font='bold 70px Georgia';g.fillText('Happy Birthday, '+CONFIG.to+'!',512,300,900);
+    g.font='bold 70px Georgia';g.fillText('Happy Birthday '+CONFIG.to+'!',512,300,900);
     g.font='38px Georgia';g.fillText('Birthday wishes from your friend, '+CONFIG.from,512,390,930);
     g.font='30px Georgia';g.fillText('Hope your day brings plenty of smiles and fun',512,465,900);
   }
   else{
-    var it=frames[i].it;
+    var it=CONFIG.slides[i];
     g.fillStyle='#211c24';g.fillRect(0,0,1024,576);
     if(it.img){
-      var coverScale=Math.max(1024/it.img.width,576/it.img.height),coverW=it.img.width*coverScale,coverH=it.img.height*coverScale;
-      g.save();g.filter='blur(30px) brightness(.72)';
-      g.drawImage(it.img,(1024-coverW)/2,(576-coverH)/2,coverW,coverH);g.restore();
-      g.fillStyle='rgba(20,16,24,.08)';g.fillRect(0,0,1024,576);
-      var fitScale=Math.min(960/it.img.width,442/it.img.height),dw=it.img.width*fitScale,dh=it.img.height*fitScale;
-      var dx=(1024-dw)/2,dy=8+(442-dh)/2;
+      var fitScale=Math.min(980/it.img.width,438/it.img.height),dw=it.img.width*fitScale,dh=it.img.height*fitScale;
+      var dx=(1024-dw)/2,dy=10+(438-dh)/2;
       g.shadowColor='rgba(0,0,0,.5)';g.shadowBlur=22;g.shadowOffsetY=8;
       g.fillStyle='#fff';g.fillRect(dx-7,dy-7,dw+14,dh+14);g.shadowColor='transparent';g.shadowBlur=0;g.shadowOffsetY=0;
       g.drawImage(it.img,dx,dy,dw,dh);
@@ -376,6 +381,16 @@ CONFIG.items.forEach(function(it,i){
   var pl=new THREE.Mesh(new THREE.PlaneGeometry(1.6,.3),new THREE.MeshBasicMaterial({map:new THREE.CanvasTexture(pc)}));pl.position.set(0,-1.78,.05);g.add(pl);
   S.add(g);frames.push({c:c,tx:tx,it:it,mesh:g});
   if(it.src){var im=new Image();im.onload=function(){it.img=im;drawTex(c,it,960,1200);tx.needsUpdate=true};im.src=it.src}
+});
+CONFIG.slides.forEach(function(it,i){
+  if(it.src){
+    var im=new Image();
+    im.onload=function(){
+      it.img=im;
+      if(tvOn&&slide===i)drawTV(i);
+    };
+    im.src=it.src;
+  }
 });
 var plq=null;
 function buildPlaque(){
@@ -610,7 +625,7 @@ function stepGirl(){
   if(s.k==='go')done=walk(girl,s.x,s.z,.07);
   else if(s.k==='face'){girl.walking=false;girl.rot=aL(girl.rot,s.a,.12);done=Math.abs(aD(girl.rot,s.a))<.05}
   else if(s.k==='say'){say(girl,s.s,s.ms||2600);done=true}
-  else if(s.k==='birthdayWait'){girl.walking=false;if(!s.started){s.started=true;showBirthday('Happy Birthday, '+CONFIG.to+'!',3000)}done=n>=birthdayUntil}
+  else if(s.k==='birthdayWait'){girl.walking=false;if(!s.started){s.started=true;showBirthday('Happy Birthday '+CONFIG.to+'!',3000)}done=n>=birthdayUntil}
   else if(s.k==='wait'){girl.walking=false;if(!s.t0)s.t0=n;done=n-s.t0>s.ms}
   else if(s.k==='boy'){boy.x=0;boy.z=9.4;boy.rot=PI;boy.g.visible=true;boy.mode='follow';done=true}
   else if(s.k==='benchBoy'){boy.mode='bench';boy.q=[[.55,-1.8],[.55,-3]];done=true}
@@ -848,7 +863,7 @@ function updateEnding(now){
     endingStage='farewellBoy';endingAt=now+4300;
   }else if(endingStage==='farewellBoy'&&now>=endingAt){
     girl.waving=false;boy.waving=false;
-    showBirthday('Happy Birthday, '+CONFIG.to+'! 🎉',5500);
+    showBirthday('Happy Birthday '+CONFIG.to+'! 🎉',5500);
     finishEnding();
   }
   updateCakeFireworks(now);
@@ -907,7 +922,7 @@ function loop(t){
   anim(girl,t);anim(boy,t);
   anim(waiter,t);
   if(tvOn&&NOW()-lastSl>3000){
-    if(slide<frames.length-1){slide=slide<0?0:slide+1;drawTV(slide);lastSl=NOW()}
+    if(slide<CONFIG.slides.length-1){slide=slide<0?0:slide+1;drawTV(slide);lastSl=NOW()}
     else{tvOn=false;tv.visible=false;startDance()}
   }
   if(camMode==='auto'){
@@ -922,7 +937,8 @@ function loop(t){
       p=new THREE.Vector3(7,3.5,3.5);l=new THREE.Vector3(2.6,1.2,-.55);
     }else if(endingStage==='exit'||endingStage==='gateOpening'||endingStage==='gateClosing'||endingStage==='farewellWalk'||endingStage==='farewellGirl'||endingStage==='farewellBoy'){
       p=new THREE.Vector3(0,4.2,4.2);l=new THREE.Vector3(0,1.4,9.6);
-    }else if(state==='seated'){p=new THREE.Vector3(0,3.1,2.8);l=new THREE.Vector3(0,2.1,-7.2)}
+    }else if(state==='seated'&&tvOn){p=new THREE.Vector3(0,4.2,1.5);l=new THREE.Vector3(0,2.55,-7.2)}
+    else if(state==='seated'){p=new THREE.Vector3(0,3.1,2.8);l=new THREE.Vector3(0,2.1,-7.2)}
     else{
       var fx=Math.sin(girl.rot),fz=Math.cos(girl.rot);
       p=new THREE.Vector3(cl(girl.x-fx*4.2),2.6,cl(girl.z-fz*4.2));
@@ -930,7 +946,7 @@ function loop(t){
       l=new THREE.Vector3(girl.x,1.3,girl.z);
     }
     Cam.position.lerp(p,.04);look.lerp(l,.08);
-    var targetFov=state==='seated'&&tvOn&&innerWidth>=600?40:(innerWidth<600?74:65);
+    var targetFov=state==='seated'&&tvOn?(innerWidth<600?82:68):(innerWidth<600?74:65);
     if(Math.abs(Cam.fov-targetFov)>.05){Cam.fov+=(targetFov-Cam.fov)*.06;Cam.updateProjectionMatrix()}
     Cam.lookAt(look);
   }else{
